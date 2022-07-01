@@ -1,14 +1,27 @@
 // deposit button even handler
 const handleDeposit = () => {
   const enteredDepositNumber = inputNumberConversion("deposit");
-  updateWithdrawAndDeposit("current-deposit", enteredDepositNumber);
-  updateBalance(enteredDepositNumber, true);
+  if (enteredDepositNumber > 0) {
+    updateWithdrawAndDeposit("current-deposit", enteredDepositNumber);
+    updateBalance(enteredDepositNumber, true);
+  }
 };
 // withdraw button even handler
 const handleWithdraw = () => {
+  const currentBalance = document.getElementById("current-balance");
+  const currentBalanceAmount = currentBalance.innerText;
+  const currentBalanceNumber = parseFloat(currentBalanceAmount);
   const enteredWithdrawNumber = inputNumberConversion("withdraw");
-  updateWithdrawAndDeposit("current-withdraw", enteredWithdrawNumber);
-  updateBalance(enteredWithdrawNumber, false);
+  if (
+    enteredWithdrawNumber > 0 &&
+    currentBalanceNumber > enteredWithdrawNumber
+  ) {
+    updateWithdrawAndDeposit("current-withdraw", enteredWithdrawNumber);
+    updateBalance(enteredWithdrawNumber, false);
+  }
+  if (currentBalanceNumber < enteredWithdrawNumber) {
+    alert("You have not enough amount");
+  }
 };
 // input number conversion
 const inputNumberConversion = (id) => {
@@ -32,10 +45,6 @@ const updateBalance = (amount, isTrue) => {
   if (isTrue === true) {
     currentBalance.innerText = currentBalanceNumber + amount;
   } else {
-    if (currentBalanceNumber < amount) {
-      alert("You dont have enough amount");
-    } else {
-      currentBalance.innerText = currentBalanceNumber - amount;
-    }
+    currentBalance.innerText = currentBalanceNumber - amount;
   }
 };
