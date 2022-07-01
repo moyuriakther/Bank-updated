@@ -32,6 +32,10 @@ const updateBalance = (amount, isTrue) => {
   if (isTrue === true) {
     currentBalance.innerText = currentBalanceNumber + amount;
   } else {
-    currentBalance.innerText = currentBalanceNumber - amount;
+    if (currentBalanceNumber < amount) {
+      alert("You dont have enough amount");
+    } else {
+      currentBalance.innerText = currentBalanceNumber - amount;
+    }
   }
 };
